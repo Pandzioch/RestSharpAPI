@@ -1,5 +1,6 @@
 For the testing purpose I used json-server from github project:
-https://github.com/typicode/json-server
+https://github.com/typicode/json-server for UnitTest1.cs file
+https://github.com/vdespa/introduction-to-postman-course/blob/main/simple-books-api.md for fullSet.cs file
 
 All request, no matter the method wes handled by the application.
 For starting out, it needs NodeJS, db.json file configuration and any commandline
