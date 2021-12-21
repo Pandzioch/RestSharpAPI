@@ -22,12 +22,14 @@ namespace RestSharpAPI
         string username;
         string email;
         string token = "0d1441e87bc4cd9b9bb3f062336cc866c639d9e67ba83918ecf54c0ddba5a7d0";
+        string bookId = "gm6l9SwOkvWsdjNf6ryzK";
+        string deleteBookId = "d50YwwNZEVbMwOo64D8_U";
 
         [Test]
         public void Registration()
         {
-            username = "Example";
-            email = "exampleaddress@example.com";
+            username = "testtestest";
+            email = "testtestest@example.com";
             var body = new registerClass { clientName = username, clientEmail = email };
 
 
@@ -38,9 +40,17 @@ namespace RestSharpAPI
 
             var deserialize = new JsonDeserializer();
             var output = deserialize.Deserialize<Dictionary<string, string>>(response);
-            var accessToken = output["accessToken"];
+            try
+            {
+                var accessToken = output["accessToken"];
 
-            Console.WriteLine(accessToken);
+                Console.WriteLine(accessToken);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Your username or email was used to generate a token. Make sure they are unique");
+                Console.WriteLine(ex);
+            }
         }
         [Test]
 
@@ -75,7 +85,7 @@ namespace RestSharpAPI
             var response = booksApi.Get(request);
         }
         [Test]
-        public void SubmitAnOrder()
+        public void PostAnOrder()
         {
             var body = new bodyClass { bookId = postRandomNumber, customerName = "Jakub" };
 
@@ -104,18 +114,26 @@ namespace RestSharpAPI
         }
 
         [Test]
-        public void UpdateAnOrder()
+        public void PatchAnOrder()
         {
+            username = "JohnCustomer";
             var booksApi = new RestClient($"{url}");
-            var request = new RestRequest("status", DataFormat.Json);
-            var response = booksApi.Get(request);
+            var request = new RestRequest("orders/{:orderId}")
+                .AddUrlSegment(":orderId", bookId);
+            request.AddHeader("Authorization", token);
+            request.AddBody("customerName", username);
+            var response = booksApi.Patch(request);
         }
         [Test]
         public void DeleteAnOrder()
         {
+            username = "John Customer";
             var booksApi = new RestClient($"{url}");
-            var request = new RestRequest("status", DataFormat.Json);
-            var response = booksApi.Get(request);
+            var request = new RestRequest("orders/{:orderId}")
+                .AddUrlSegment(":orderId", deleteBookId);
+            request.AddHeader("Authorization", token);
+            request.AddBody("customerName", username);
+            var response = booksApi.Delete(request);
         }
     }
 }
