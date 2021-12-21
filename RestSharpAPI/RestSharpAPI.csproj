@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\bodyClass.cs" />
     <Compile Include="fullSet.cs" />
     <Compile Include="Model\Posts.cs" />
     <Compile Include="UnitTest1.cs" />
