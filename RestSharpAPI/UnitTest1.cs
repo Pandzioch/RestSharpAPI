@@ -68,5 +68,6 @@ namespace RestSharpAPI
 
             Assert.That(result, Is.EqualTo("Jakub Struzik"), "Author is not correct");
         }
+        
     }
 }

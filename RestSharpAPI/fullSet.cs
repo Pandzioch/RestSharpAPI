@@ -28,8 +28,8 @@ namespace RestSharpAPI
         [Test]
         public void Registration()
         {
-            username = "testtestest";
-            email = "testtestest@example.com";
+            username = "RandomLogin";
+            email = "RandomLogin@example.com";
             var body = new registerClass { clientName = username, clientEmail = email };
 
 
@@ -45,6 +45,7 @@ namespace RestSharpAPI
                 var accessToken = output["accessToken"];
 
                 Console.WriteLine(accessToken);
+                Assert.That(accessToken, Is.Not.Null.And.Not.Empty);
             }
             catch (Exception ex)
             {
