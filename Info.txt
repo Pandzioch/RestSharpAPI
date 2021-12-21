@@ -1,0 +1,7 @@
+For the testing purpose I used json-server from github project:
+https://github.com/typicode/json-server
+
+All request, no matter the method wes handled by the application.
+For starting out, It needs NodeJS, db.json file configuration and any commandline
+
+For all requests in this Project it's required that json-server is running.
