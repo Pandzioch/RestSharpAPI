@@ -62,10 +62,17 @@ namespace RestSharpAPI
             var request = new RestRequest("status");
             var response = booksApi.Get(request);
 
+            var deserialize = new JsonDeserializer();
+            var output = deserialize.Deserialize<Dictionary<string, string>>(response);
+            var result = output["status"];
+
+            Assert.That(result, Contains.Substring("OK"));
+
         }
         [Test]
         public void GetListOfBooks()
         {
+            int id;
             var booksApi = new RestClient($"{url}");
             var request = new RestRequest("books");
             var response = booksApi.Get(request);
@@ -75,7 +82,20 @@ namespace RestSharpAPI
             /// Type: fiction or non-fiction
             /// Limit: a number between 1 and 20
             /// </summary>
+            
+            //var requestWithType = new RestRequest("books?type=non-fiction");
+            //var responseWithType = booksApi.Get(requestWithType);
 
+            //var requestWithLimit = new RestRequest($"books?Limit={randomNumber}");
+            //var responseWithLimit = booksApi.Get(requestWithLimit);
+
+            //var requestWithAllData = new RestRequest($"books?type=non-fiction&Limit={randomNumber}");
+            //var responseWithAllData = booksApi.Get(requestWithLimit);
+
+            var deserialize = new JsonDeserializer();
+            var output = deserialize.Deserialize<List<listOfBooks>>(response);
+
+            Assert.That(output.Count, Is.Not.Null);
         }
         [Test]
         public void GetSingleBook()
@@ -84,11 +104,22 @@ namespace RestSharpAPI
             var request = new RestRequest("books/{:bookId}")
                 .AddUrlSegment(":bookId", randomNumber);
             var response = booksApi.Get(request);
+
+            var deserialize = new JsonDeserializer();
+            var output = deserialize.Deserialize<Dictionary<string, string>>(response);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(output.ContainsKey("type"));
+                Assert.That(output.ContainsKey("id"));
+                Assert.That(output.ContainsKey("author"));
+                Assert.That(output.ContainsKey("available"));
+            });
         }
         [Test]
         public void PostAnOrder()
         {
-            var body = new bodyClass { bookId = postRandomNumber, customerName = "Jakub" };
+            var body = new bodyClass { id = postRandomNumber, customerName = "Jakub" };
 
             var booksApi = new RestClient($"{url}");
             var request = new RestRequest("orders", DataFormat.Json);
